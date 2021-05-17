@@ -82,6 +82,45 @@ def mars_facts():
     # Convert to html-ready code
     return df.to_html()
 
+def hemi_data(browser):
+    
+    # 1. Use browser to visit the URL 
+    url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(url)
+
+    # 2. Create a list to hold the images and titles.
+    hemisphere_image_urls = []
+
+    # 3. Write code to retrieve the image urls and titles for each hemisphere.
+    html = browser.html
+    hemi_soup = soup(html, 'html.parser')
+    hemis = hemi_soup.find_all('div', class_='item')
+    hemi_titles = []
+    hemispheres = {}
+    for hemi in hemis:
+        title = hemi.find('h3').text
+        hemi_titles.append(title)
+    for x in range(0,4):
+        
+        link = browser.find_by_css('.thumb')[x]
+        link.click()
+        
+        html = browser.html
+        img_soup = soup(html, 'html.parser')
+        hemi_sample = img_soup.find('div', class_='downloads')
+        hemi_url = hemi_sample.find('a').get('href')
+        browser.back()
+        hemispheres = {'img_url': hemi_url, 'title': hemi_titles[x]}
+        hemisphere_image_urls.append(hemispheres)
+
+    # 4. Print the list that holds the dictionary of each image url and title.
+    hemisphere_image_urls
+
+    # 5. Quit the browser
+    browser.quit()
+
+    return hemisphere_image_urls
+
 def scrape_all():
     # Initiate headless driver for deployment
     executable_path = {'executable_path': ChromeDriverManager().install()}
@@ -96,7 +135,8 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "last modified": dt.datetime.now()
+        "last modified": dt.datetime.now(),
+        "hemisphere images": hemi_data(browser)
     }
 
     # Stop webdriver and return data
