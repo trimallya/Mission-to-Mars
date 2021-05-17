@@ -14,55 +14,59 @@
     <div class="container">
         <!-- Add Jumbotron to Header -->
         <div class="jumbotron text-center">
-            <h1>Mission to Mars</h1>
+            <h1 class="text-success">Mission to Mars</h1>
             <!-- Add a button to activate scraping script -->
-            <p><a class="btn btn-primary btn-lg" href="http://127.0.0.1:5000/scrape" role="button">Scrape New Data</a></p>
+            <p><a class="btn btn-success btn-lg" href="http://127.0.0.1:5000/scrape" role="button">Scrape New Data</a></p>
         </div>
         <!-- Add section for Mars News -->
         <div class="row" id="mars-news">
-            <div class="col-md-12">
+            <div class="col-md-12 col-sm-12">
                 <div class="media">
                     <div class="media-body">
-                        <h2>Latest Mars News</h2>
+                        <h2 class="text-success">Latest Mars News</h2>
                         <h4 class="media-heading">{{mars.news_title}}</h4>
-                        <p>{{mars.news_paragraph}}</p>
+                        <p><em>{{mars.news_paragraph}}</em></p>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Section for Featured Image and Fact table -->
         <div class="row" id="mars-featured-image">
-            <div class="col-md-8">
-                <h2>Featured Mars Image</h2>
+            <div class="col-md-8 col-xs-12">
+                <h2 class="text-success">Featured Mars Image</h2>
                 <img
                     src="{{mars.featured_image}}"
                     class="img-responsive"
                     alt="Responsive Image"
                 />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 col-xs-12 center-block">
                 <!-- Mars Facts -->
-                <div class="row" id="mars-facts">
+                <div class="row bg-success" id="mars-facts">
                     <h4>Mars Facts</h4>
                     {{ mars.facts | safe}}
                 </div>
             </div>
         </div>
         <!-- Add section for Hemi Images -->
-        <div class="row" id="hemi_imgs"></div>
-            <h2>Mars Hemispheres</h2>
-
-            {% for hemisphere in mars.hemispheres %}
-                <div class="col-md-6">
-                    <img 
-                        src= "{{ hemisphere['img_url'] }}"
-                        class="img-responsive"
-                        alt="Hemisphere Image"
-                    />
-                    <h3>{{ hemisphere['title'] }}</h3>
+        <div class="row" id="hemi_imgs">
+            <div class="col-sm-12">
+                <h2 class="text-center text-success">Mars Hemispheres</h2>
+                <div class="row">
+                    {% for hemisphere in mars.hemispheres %}
+                        <div class="col-xs-6 col-md-6">
+                            <img 
+                                src= "{{ hemisphere['img_url'] }}"
+                                class="img-thumbnail"
+                                alt="Hemisphere Image"
+                            />
+                            <h3>{{ hemisphere['title'] }}</h3>
+                        </div>
+                    {% endfor %}    
                 </div>
-            {% endfor %}    
+            </div>
         </div>
+        
     </div>
 </body>
 </html>
